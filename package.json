@@ -3,9 +3,7 @@
   "version": "0.0.0",
   "description": "XSalsa20 implemented in Javascript and WebAssembly",
   "main": "index.js",
-  "dependencies": {
-    "base64-to-uint8array": "^1.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "repository": {
     "type": "git",
