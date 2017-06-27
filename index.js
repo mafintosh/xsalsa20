@@ -111,6 +111,8 @@ Fallback.prototype.finalize = function () {
   this._z.fill(0)
 }
 
+// below methods are ported from tweet nacl
+
 function core_salsa20(o, p, k, c) {
   var j0  = c[ 0] & 0xff | (c[ 1] & 0xff) << 8 | (c[ 2] & 0xff) << 16 | (c[ 3] & 0xff) << 24,
       j1  = k[ 0] & 0xff | (k[ 1] & 0xff) << 8 | (k[ 2] & 0xff) << 16 | (k[ 3] & 0xff) << 24,

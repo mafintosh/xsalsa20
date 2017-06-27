@@ -6,6 +6,9 @@ XSalsa20 implemented in Javascript and WebAssembly.
 npm install xsalsa20
 ```
 
+[![build status](https://travis-ci.org/mafintosh/xsalsa20.svg?branch=master)](https://travis-ci.org/mafintosh/xsalsa20)
+
+
 ## Usage
 
 ``` js
