@@ -4,7 +4,12 @@
   "description": "XSalsa20 implemented in Javascript and WebAssembly",
   "main": "index.js",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "tape": "^4.6.3"
+  },
+  "scripts": {
+    "test": "tape test.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/mafintosh/xsalsa20.git"
