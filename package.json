@@ -1,6 +1,6 @@
 {
   "name": "xsalsa20",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "XSalsa20 implemented in Javascript and WebAssembly",
   "main": "index.js",
   "dependencies": {},
