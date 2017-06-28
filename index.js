@@ -50,12 +50,14 @@ WASM.prototype.update = function (input, output) {
   var len = this._overflow + input.length
   var start = head + this._overflow
 
+  top = head + len
+  if (top >= xsalsa20.memory.length) xsalsa20.realloc(top)
+
   xsalsa20.memory.set(input, start)
   xsalsa20.exports.xsalsa20_xor(this._pointer, head, head, len, this._nonce, this._key)
   output.set(xsalsa20.memory.subarray(start, head + len))
 
   this._overflow = len & 63
-  top = head + len
 }
 
 WASM.prototype.finalize = function () {
