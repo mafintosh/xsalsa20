@@ -1,5 +1,5 @@
 (module
-  (memory (export "memory") 1 10)
+  (memory (export "memory") 1 1000)
 
   (func (export "xsalsa20_xor")
     (param $ptr i32) (param $c_ptr i32) (param $m_ptr i32) (param $m_len i32) (param $nonce_ptr i32) (param $key_ptr i32)

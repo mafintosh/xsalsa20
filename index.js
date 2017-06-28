@@ -20,7 +20,7 @@ function XSalsa20 (nonce, key) {
 XSalsa20.prototype.update = function (input, output) {
   if (!input) throw new Error('input must be Uint8Array or Buffer')
   if (!output) output = new Uint8Array(input.length)
-  this._xor.update(input, output)
+  if (input.length) this._xor.update(input, output)
   return output
 }
 
