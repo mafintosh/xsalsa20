@@ -10,6 +10,9 @@ module.exports = XSalsa20
 XSalsa20.NONCEBYTES = 24
 XSalsa20.KEYBYTES = 32
 
+XSalsa20.core_hsalsa20 = core_hsalsa20
+XSalsa20.SIGMA = SIGMA
+
 function XSalsa20 (nonce, key) {
   if (!(this instanceof XSalsa20)) return new XSalsa20(nonce, key)
   if (!nonce || nonce.length < 24) throw new Error('nonce must be at least 24 bytes')

@@ -160,3 +160,19 @@ tape('encrypt and decrypt', function (t) {
   t.same(cipher, message, 'unencrypted')
   t.end()
 })
+
+tape('core_hsalsa20', function (t) {
+  var input = new Buffer(
+    '50824531b103669bb974a92e03e27289e09ef7328b8c22bf3267c811bf28477c', 'hex')
+  var output = new Buffer(32)
+  var zero = new Buffer(16)
+  zero.fill(0)
+
+  xsalsa20.core_hsalsa20(output, zero, input, xsalsa20.SIGMA)
+
+  var expected = new Buffer(
+    '44317f32de851b34393a990b004840dc6e468fe10302ba4ec15b3304df34e326', 'hex')
+  t.same(output, expected, 'core_hsalsa20 output')
+
+  t.end()
+});
