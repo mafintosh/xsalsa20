@@ -10,7 +10,7 @@
   },
   "scripts": {
     "test": "tape test.js",
-    "prepare": "wat2js xsalsa20.wat -o xsalsa20.js"
+    "build": "wat2js xsalsa20.wat -o xsalsa20.js"
   },
   "repository": {
     "type": "git",
