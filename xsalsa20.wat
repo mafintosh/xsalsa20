@@ -46,7 +46,9 @@
     ;; kcopy -> 80-112
 
     (if (i32.eq (get_local $m_len) (i32.const 0))
-      (return (i64.const 0))
+      (then
+        (return (i64.const 0))
+      )
     )
 
     ;; kcopy[i] = k[i];
