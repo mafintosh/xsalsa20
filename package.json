@@ -5,10 +5,12 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "tape": "^4.6.3"
+    "tape": "^4.6.3",
+    "wat2js": "^2.1.1"
   },
   "scripts": {
-    "test": "tape test.js"
+    "test": "tape test.js",
+    "prepare": "wat2js xsalsa20.wat -o xsalsa20.js"
   },
   "repository": {
     "type": "git",

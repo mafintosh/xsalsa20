@@ -41,6 +41,10 @@ Update the xor instance with a new input buffer. Optionally you can pass in an o
 
 Call this method last. Clears internal state.
 
+## Building
+
+The WAT file is built using [wat2js](https://github.com/mafintosh/wat2js) called from the prepare hook.  This requires the [webassembly-binary-toolkit](https://github.com/mafintosh/webassembly-binary-toolkit) to be installed globally.
+
 ## License
 
 MIT
