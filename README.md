@@ -41,9 +41,33 @@ Update the xor instance with a new input buffer. Optionally you can pass in an o
 
 Call this method last. Clears internal state.
 
-## Building
+## Contributing
 
-The WAT file is built using [wat2js](https://github.com/mafintosh/wat2js) called from `npm run build`.  This requires the [webassembly-binary-toolkit](https://github.com/mafintosh/webassembly-binary-toolkit) to be installed globally.
+The bulk of this module is implemented in WebAssembly in the [xsalsa20.wat](xsalsa20.wat) file.
+The format of this file is S-Expressions that can be compiled to their binary WASM representation by doing
+
+```
+wat2wasm xsalsa20.wat -o xsalsa20.wasm
+```
+
+To build the thin Javascript wrapper for the WASM module use `wat2js`:
+
+```
+# npm run compile
+wat2js xsalsa20.wat -o xsalsa20.js
+```
+
+The `wat2wasm` tool is provided by the npm installed [`wat2wasm`](https://github.com/emilbayes/wat2wasm) WASM compiled version of `wabt`'s [`wat2wasm`](https://github.com/WebAssembly/wabt/blob/master/src/tools/wat2wasm.cc) utility.  You do not need `wabt` installed to compile, but if you want it follow the [install instructions](https://github.com/WebAssembly/wabt) or use the [webassembly-binary-toolkit](https://github.com/mafintosh/webassembly-binary-toolkit) helper.
+
+## See Also
+
+- [blake2b-wasm](https://github.com/mafintosh/blake2b-wasm)
+- [sodium-javascript](https://github.com/sodium-friends/sodium-javascript)
+- [sodium-friends](https://github.com/sodium-friends)
+- [webassembly-binary-toolkit](https://github.com/mafintosh/webassembly-binary-toolkit)
+- [wat2wasm](https://github.com/emilbayes/wat2wasm)
+- [wat2js](https://github.com/mafintosh/wat2js)
+
 
 ## License
 
