@@ -43,7 +43,7 @@ Call this method last. Clears internal state.
 
 ## Building
 
-The WAT file is built using [wat2js](https://github.com/mafintosh/wat2js) called from the prepare hook.  This requires the [webassembly-binary-toolkit](https://github.com/mafintosh/webassembly-binary-toolkit) to be installed globally.
+The WAT file is built using [wat2js](https://github.com/mafintosh/wat2js) called from `npm run build`.  This requires the [webassembly-binary-toolkit](https://github.com/mafintosh/webassembly-binary-toolkit) to be installed globally.
 
 ## License
 
