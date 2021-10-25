@@ -19,8 +19,8 @@ var nonce = crypto.randomBytes(24)
 
 var xor = xsalsa20(nonce, key)
 
-console.log(xor.update(new Buffer('hello')))
-console.log(xor.update(new Buffer('world')))
+console.log(xor.update(Buffer.from('hello')))
+console.log(xor.update(Buffer.from('world')))
 
 xor.finalize()
 ```
