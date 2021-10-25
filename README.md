@@ -41,6 +41,14 @@ Update the xor instance with a new input buffer. Optionally you can pass in an o
 
 Call this method last. Clears internal state.
 
+## Contributing
+
+The bulk of this module is implemented in WebAssembly in the [xsalsa20.wat](xsalsa20.wat) file. To build the thin Javascript wrapper do:
+
+```
+npm run compile
+```
+
 ## License
 
 MIT
