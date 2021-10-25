@@ -5,11 +5,11 @@
   "main": "index.js",
   "devDependencies": {
     "tape": "^4.6.3",
-    "wasm-tools": "^0.1.1"
+    "wasm-tools": "^0.2.0"
   },
   "scripts": {
     "test": "tape test.js",
-    "build": "wasm-to-js -sf cjs xsalsa20.wat > xsalsa20.js"
+    "compile": "wasm-to-js -sf cjs xsalsa20.wat > xsalsa20.js"
   },
   "repository": {
     "type": "git",
