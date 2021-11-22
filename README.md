@@ -19,8 +19,8 @@ var nonce = crypto.randomBytes(24)
 
 var xor = xsalsa20(nonce, key)
 
-console.log(xor.update(new Buffer('hello')))
-console.log(xor.update(new Buffer('world')))
+console.log(xor.update(Buffer.from('hello')))
+console.log(xor.update(Buffer.from('world')))
 
 xor.finalize()
 ```
@@ -40,6 +40,14 @@ Update the xor instance with a new input buffer. Optionally you can pass in an o
 #### `xor.finalize()`
 
 Call this method last. Clears internal state.
+
+## Contributing
+
+The bulk of this module is implemented in WebAssembly in the [xsalsa20.wat](xsalsa20.wat) file. To build the thin Javascript wrapper do:
+
+```
+npm run compile
+```
 
 ## License
 

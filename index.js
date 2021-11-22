@@ -1,4 +1,4 @@
-var xsalsa20 = require('./xsalsa20')()
+var xsalsa20 = typeof WebAssembly !== "undefined" && require('./xsalsa20')()
 
 var SIGMA = new Uint8Array([101, 120, 112, 97, 110, 100, 32, 51, 50, 45, 98, 121, 116, 101, 32, 107])
 var head = 144
@@ -17,7 +17,7 @@ function XSalsa20 (nonce, key) {
   if (!(this instanceof XSalsa20)) return new XSalsa20(nonce, key)
   if (!nonce || nonce.length < 24) throw new Error('nonce must be at least 24 bytes')
   if (!key || key.length < 32) throw new Error('key must be at least 32 bytes')
-  this._xor = xsalsa20 && xsalsa20.exports ? new WASM(nonce, key) : new Fallback(nonce, key)
+  this._xor = xsalsa20 ? new WASM(nonce, key) : new Fallback(nonce, key)
 }
 
 XSalsa20.prototype.update = function (input, output) {
@@ -43,10 +43,16 @@ function WASM (nonce, key) {
   this._nonce = this._pointer + 8
   this._key = this._nonce + 24
   this._overflow = 0
+  this._memory = new Uint8Array(xsalsa20.memory.buffer)
 
-  xsalsa20.memory.fill(0, this._pointer, this._pointer + 8)
-  xsalsa20.memory.set(nonce, this._nonce)
-  xsalsa20.memory.set(key, this._key)
+  this._memory.fill(0, this._pointer, this._pointer + 8)
+  this._memory.set(nonce, this._nonce)
+  this._memory.set(key, this._key)
+}
+
+WASM.prototype.realloc = function (size) {
+  xsalsa20.memory.grow(Math.ceil(Math.abs(size - this._memory.length) / 65536))
+  this._memory = new Uint8Array(xsalsa20.memory.buffer)
 }
 
 WASM.prototype.update = function (input, output) {
@@ -54,19 +60,19 @@ WASM.prototype.update = function (input, output) {
   var start = head + this._overflow
 
   top = head + len
-  if (top >= xsalsa20.memory.length) xsalsa20.realloc(top)
+  if (top >= this._memory.length) this.realloc(top)
 
-  xsalsa20.memory.set(input, start)
-  xsalsa20.exports.xsalsa20_xor(this._pointer, head, head, len, this._nonce, this._key)
-  output.set(xsalsa20.memory.subarray(start, head + len))
+  this._memory.set(input, start)
+  xsalsa20.xsalsa20_xor(this._pointer, head, head, len, this._nonce, this._key)
+  output.set(this._memory.subarray(start, head + len))
 
   this._overflow = len & 63
 }
 
 WASM.prototype.finalize = function () {
-  xsalsa20.memory.fill(0, this._pointer, this._key + 32)
+  this._memory.fill(0, this._pointer, this._key + 32)
   if (top > head) {
-    xsalsa20.memory.fill(0, head, top)
+    this._memory.fill(0, head, top)
     top = 0
   }
   free.push(this._pointer)

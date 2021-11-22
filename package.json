@@ -3,12 +3,13 @@
   "version": "1.1.0",
   "description": "XSalsa20 implemented in Javascript and WebAssembly",
   "main": "index.js",
-  "dependencies": {},
   "devDependencies": {
-    "tape": "^4.6.3"
+    "tape": "^4.6.3",
+    "wasm-tools": "^0.2.0"
   },
   "scripts": {
-    "test": "tape test.js"
+    "test": "tape test.js",
+    "compile": "wasm-to-js -sf cjs xsalsa20.wat > xsalsa20.js"
   },
   "repository": {
     "type": "git",
