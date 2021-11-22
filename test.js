@@ -1,8 +1,9 @@
 var tape = require('tape')
 var crypto = require('crypto')
+var b4a = require('b4a')
 var xsalsa20 = require('./')
 
-var LIBSODIUM_TEST_KEY = Buffer.from([
+var LIBSODIUM_TEST_KEY = b4a.from([
   0x1b, 0x27, 0x55, 0x64, 0x73, 0xe9, 0x85,
   0xd4, 0x62, 0xcd, 0x51, 0x19, 0x7a, 0x9a,
   0x46, 0xc7, 0x60, 0x09, 0x54, 0x9e, 0xac,
@@ -10,14 +11,14 @@ var LIBSODIUM_TEST_KEY = Buffer.from([
   0x44, 0xf6, 0x83, 0x89
 ])
 
-var LIBSODIUM_TEST_NONCE = Buffer.from([
+var LIBSODIUM_TEST_NONCE = b4a.from([
   0x69, 0x69, 0x6e, 0xe9, 0x55, 0xb6,
   0x2b, 0x73, 0xcd, 0x62, 0xbd, 0xa8,
   0x75, 0xfc, 0x73, 0xd6, 0x82, 0x19,
   0xe0, 0x03, 0x6b, 0x7a, 0x0b, 0x37
 ])
 
-var LIBSODIUM_TEST_MESSAGE = Buffer.from([
+var LIBSODIUM_TEST_MESSAGE = b4a.from([
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0xbe, 0x07, 0x5f, 0xc5,
@@ -34,7 +35,7 @@ var LIBSODIUM_TEST_MESSAGE = Buffer.from([
   0x76, 0x38, 0x48, 0x64, 0x5e, 0x07, 0x05
 ])
 
-var LIBSODIUM_TEST_CIPHER = Buffer.from([
+var LIBSODIUM_TEST_CIPHER = b4a.from([
   0x8e, 0x99, 0x3b, 0x9f, 0x48, 0x68, 0x12, 0x73,
   0xc2, 0x96, 0x50, 0xba, 0x32, 0xfc, 0x76, 0xce,
   0x48, 0x33, 0x2e, 0xa7, 0x16, 0x4d, 0x96, 0xa4,
@@ -54,7 +55,7 @@ var LIBSODIUM_TEST_CIPHER = Buffer.from([
   0xe3, 0x55, 0xa5
 ])
 
-var LIBSODIUM_TEST_KEY_2 = Buffer.from([
+var LIBSODIUM_TEST_KEY_2 = b4a.from([
   0x1b, 0x27, 0x55, 0x64, 0x73, 0xe9, 0x85,
   0xd4, 0x62, 0xcd, 0x51, 0x19, 0x7a, 0x9a,
   0x46, 0xc7, 0x60, 0x09, 0x54, 0x9e, 0xac,
@@ -62,14 +63,14 @@ var LIBSODIUM_TEST_KEY_2 = Buffer.from([
   0x44, 0xf6, 0x83, 0x89
 ])
 
-var LIBSODIUM_TEST_NONCE_2 = Buffer.from([
+var LIBSODIUM_TEST_NONCE_2 = b4a.from([
   0x69, 0x69, 0x6e, 0xe9, 0x55, 0xb6,
   0x2b, 0x73, 0xcd, 0x62, 0xbd, 0xa8,
   0x75, 0xfc, 0x73, 0xd6, 0x82, 0x19,
   0xe0, 0x03, 0x6b, 0x7a, 0x0b, 0x37
 ])
 
-var LIBSODIUM_TEST_CIPHER_2 = Buffer.from([
+var LIBSODIUM_TEST_CIPHER_2 = b4a.from([
   0xee, 0xa6, 0xa7, 0x25, 0x1c, 0x1e, 0x72, 0x91,
   0x6d, 0x11, 0xc2, 0xcb, 0x21, 0x4d, 0x3c, 0x25,
   0x25, 0x39, 0x12, 0x1d, 0x8e, 0x23, 0x4e, 0x65,
@@ -78,7 +79,7 @@ var LIBSODIUM_TEST_CIPHER_2 = Buffer.from([
 
 tape('libsodium fixture', function (t) {
   var xor = xsalsa20(LIBSODIUM_TEST_NONCE, LIBSODIUM_TEST_KEY)
-  var output = Buffer.alloc(LIBSODIUM_TEST_MESSAGE.length)
+  var output = b4a.alloc(LIBSODIUM_TEST_MESSAGE.length)
   xor.update(LIBSODIUM_TEST_MESSAGE, output)
   xor.finalize()
   t.same(output.slice(32), LIBSODIUM_TEST_CIPHER, 'should match fixture')
@@ -87,7 +88,7 @@ tape('libsodium fixture', function (t) {
 
 tape('libsodium fixture partial', function (t) {
   var xor = xsalsa20(LIBSODIUM_TEST_NONCE, LIBSODIUM_TEST_KEY)
-  var output = Buffer.alloc(LIBSODIUM_TEST_MESSAGE.length)
+  var output = b4a.alloc(LIBSODIUM_TEST_MESSAGE.length)
 
   for (var i = 0; i < output.length; i++) {
     xor.update(LIBSODIUM_TEST_MESSAGE.slice(i, i + 1), output.slice(i, i + 1))
@@ -100,7 +101,7 @@ tape('libsodium fixture partial', function (t) {
 
 tape('libsodium fixture partial (random chunks)', function (t) {
   var xor = xsalsa20(LIBSODIUM_TEST_NONCE, LIBSODIUM_TEST_KEY)
-  var output = Buffer.alloc(LIBSODIUM_TEST_MESSAGE.length)
+  var output = b4a.alloc(LIBSODIUM_TEST_MESSAGE.length)
   var i = 0
 
   while (i < output.length) {
@@ -116,7 +117,7 @@ tape('libsodium fixture partial (random chunks)', function (t) {
 
 tape('libsodium crypto_stream fixture', function (t) {
   var xor = xsalsa20(LIBSODIUM_TEST_NONCE_2, LIBSODIUM_TEST_KEY_2)
-  var output = Buffer.alloc(LIBSODIUM_TEST_CIPHER_2.length)
+  var output = b4a.alloc(LIBSODIUM_TEST_CIPHER_2.length)
   output.fill(0)
   xor.update(output, output)
   xor.finalize()
@@ -127,15 +128,15 @@ tape('libsodium crypto_stream fixture', function (t) {
 tape('encrypt and decrypt basic', function (t) {
   var key = crypto.randomBytes(32)
   var nonce = crypto.randomBytes(24)
-  var cipher = Buffer.from('hello world')
+  var cipher = b4a.from('hello world')
 
   var a = xsalsa20(nonce, key)
   a.update(cipher, cipher)
-  t.notEqual(cipher, Buffer.from('hello world'), 'encrypted')
+  t.notEqual(cipher, b4a.from('hello world'), 'encrypted')
 
   var b = xsalsa20(nonce, key)
   b.update(cipher, cipher)
-  t.same(cipher, Buffer.from('hello world'), 'unencrypted')
+  t.same(cipher, b4a.from('hello world'), 'unencrypted')
 
   a.finalize()
   b.finalize()
@@ -147,7 +148,7 @@ tape('encrypt and decrypt', function (t) {
   var key = crypto.randomBytes(32)
   var nonce = crypto.randomBytes(24)
   var message = crypto.randomBytes(10000)
-  var cipher = Buffer.alloc(10000)
+  var cipher = b4a.alloc(10000)
 
   var xor = xsalsa20(nonce, key)
   xor.update(cipher, message)
@@ -162,15 +163,15 @@ tape('encrypt and decrypt', function (t) {
 })
 
 tape('core_hsalsa20', function (t) {
-  var input = Buffer.from(
+  var input = b4a.from(
     '50824531b103669bb974a92e03e27289e09ef7328b8c22bf3267c811bf28477c', 'hex')
-  var output = Buffer.alloc(32)
-  var zero = Buffer.alloc(16)
+  var output = b4a.alloc(32)
+  var zero = b4a.alloc(16)
   zero.fill(0)
 
   xsalsa20.core_hsalsa20(output, zero, input, xsalsa20.SIGMA)
 
-  var expected = Buffer.from(
+  var expected = b4a.from(
     '44317f32de851b34393a990b004840dc6e468fe10302ba4ec15b3304df34e326', 'hex')
   t.same(output, expected, 'core_hsalsa20 output')
 
